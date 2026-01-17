@@ -1,1 +1,166 @@
-index.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pizzaria Dom Pizza</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+
+    header {
+      background: url('https://images.unsplash.com/photo-1601924582975-7c7c9b6b9b1d')
+        center/cover no-repeat;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background: #e63946;
+      color: #fff;
+      padding: 15px 25px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,.5);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .price {
+      color: #e63946;
+      font-weight: bold;
+    }
+
+    .about {
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25d366;
+      color: #fff;
+      padding: 15px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <h1>Dom Pizza</h1>
+    <p>Pizzas artesanais feitas no forno, sabor que marca</p>
+    <a href="#menu" class="btn">Ver Cardápio</a>
+  </div>
+</header>
+
+<section id="menu">
+  <h2>🍕 Nosso Cardápio</h2>
+
+  <div class="menu">
+    <div class="card">
+      <h3>Calabresa</h3>
+      <p>Calabresa artesanal, cebola e mussarela</p>
+      <p class="price">R$ 39,90</p>
+    </div>
+
+    <div class="card">
+      <h3>Marguerita</h3>
+      <p>Mussarela, tomate e manjericão fresco</p>
+      <p class="price">R$ 36,90</p>
+    </div>
+
+    <div class="card">
+      <h3>Frango com Catupiry</h3>
+      <p>Frango desfiado temperado e catupiry cremoso</p>
+      <p class="price">R$ 42,90</p>
+    </div>
+
+    <div class="card">
+      <h3>Quatro Queijos</h3>
+      <p>Mussarela, parmesão, provolone e gorgonzola</p>
+      <p class="price">R$ 44,90</p>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <h2>🔥 Sobre a Dom Pizza</h2>
+  <p>
+    Trabalhamos com ingredientes selecionados, massa de fermentação lenta
+    e forno em alta temperatura para garantir sabor, crocância e qualidade
+    em cada pizza.
+  </p>
+</section>
+
+<footer>
+  <p>© 2026 Dom Pizza — Todos os direitos reservados</p>
+</footer>
+
+<a
+  class="whatsapp"
+  href="https://wa.me/5500000000000"
+  target="_blank"
+>
+  Pedir no WhatsApp
+</a>
+
+</body>
+</html>
