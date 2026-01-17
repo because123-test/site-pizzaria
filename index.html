@@ -161,7 +161,54 @@
 >
   Pedir no WhatsApp
 </a>
+<section id="pagamento" style="display:none; text-align:center;">
+  <h2>💰 Pagamento via Pix</h2>
 
+  <p>Escaneie o QR Code abaixo e faça o pagamento.</p>
+
+  <img src="pix.png" alt="Pix" style="width:250px; margin:20px 0;">
+
+  <p><strong>Após o pagamento, clique no botão abaixo e envie o comprovante.</strong></p>
+
+  <button class="btn" onclick="enviarWhatsApp()">Enviar comprovante</button>
+</section>
+
+<script>
+  let pedido = {};
+
+  function mostrarPagamento() {
+    const produto = document.getElementById("produto").value.split("|");
+    const qtd = document.getElementById("qtd").value;
+    const endereco = document.getElementById("endereco").value;
+
+    if (!endereco) {
+      alert("Por favor, preencha o endereço.");
+      return;
+    }
+
+    pedido.nome = produto[0];
+    pedido.preco = parseFloat(produto[1]);
+    pedido.qtd = qtd;
+    pedido.endereco = endereco;
+    pedido.total = (pedido.preco * qtd).toFixed(2);
+
+    document.getElementById("pagamento").style.display = "block";
+    document.getElementById("pagamento").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function enviarWhatsApp() {
+    const msg =
+      "🍕 *NOVO PEDIDO*%0A%0A" +
+      "Produto: " + pedido.nome + "%0A" +
+      "Quantidade: " + pedido.qtd + "%0A" +
+      "Total: R$ " + pedido.total + "%0A%0A" +
+      "📍 Endereço:%0A" + pedido.endereco + "%0A%0A" +
+      "Pagamento via Pix (comprovante enviado).";
+
+    const telefone = "55SEUNUMEROAQUI";
+    window.open("https://wa.me/" + telefone + "?text=" + msg, "_blank");
+  }
+</script>
 </body>
 </html>
 <section id="pedido">
