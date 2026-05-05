@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: linear-gradient(135deg, #0b0b0b, #2a0f0f);
+  background: radial-gradient(circle, #111, #000);
   color: white;
   display: flex;
   justify-content: center;
@@ -17,23 +17,18 @@ h1 {
   color: gold;
 }
 
-.desc {
-  font-size: 14px;
-  color: #bbb;
-}
-
-.saldo-box {
+.saldo {
   background: #111;
-  padding: 12px;
+  padding: 10px;
   border-radius: 10px;
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .card {
   background: #111;
   padding: 15px;
   border-radius: 10px;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 input, button {
@@ -51,8 +46,12 @@ button {
 
 .roleta-box {
   position: relative;
-  margin: 15px auto;
   width: 300px;
+  margin: auto;
+}
+
+canvas {
+  border-radius: 50%;
 }
 
 .ponteiro {
@@ -60,6 +59,9 @@ button {
   top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 20px;
-  color: red;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid red;
 }
