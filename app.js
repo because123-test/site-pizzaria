@@ -1,54 +1,30 @@
-// LOGIN
-function login() {
-  let user = document.getElementById("user").value;
-  let pass = document.getElementById("pass").value;
+let saldo = 100;
 
-  if (!user || !pass) return alert("Preencha tudo");
-
-  localStorage.setItem("user", user);
-  if (!localStorage.getItem("saldo")) {
-    localStorage.setItem("saldo", 100);
-  }
-
-  entrar();
-}
-
-function entrar() {
-  document.getElementById("login").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  atualizar();
-}
-
-if (localStorage.getItem("user")) entrar();
-
-// SALDO
-function atualizar() {
-  document.getElementById("saldo").innerText = localStorage.getItem("saldo");
-}
-
-// DEPÓSITO
-function depositar() {
-  let valor = Number(document.getElementById("valorDep").value);
-  let saldo = Number(localStorage.getItem("saldo"));
-
-  saldo += valor;
-  localStorage.setItem("saldo", saldo);
-  atualizar();
-}
-
-// RASPADINHA
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
+
 let raspando = false;
 let premio = 0;
 
-function nova() {
-  let saldo = Number(localStorage.getItem("saldo"));
+function atualizar() {
+  document.getElementById("saldo").innerText = saldo;
+}
 
-  if (saldo < 10) return alert("Sem saldo");
+function depositar() {
+  let valor = Number(document.getElementById("valor").value);
+  if (valor <= 0) return;
+
+  saldo += valor;
+  atualizar();
+}
+
+function nova() {
+  if (saldo < 10) {
+    alert("Sem saldo!");
+    return;
+  }
 
   saldo -= 10;
-  localStorage.setItem("saldo", saldo);
   atualizar();
 
   ctx.fillStyle = "gray";
@@ -75,14 +51,12 @@ function nova() {
 }
 
 canvas.addEventListener("mousedown", () => raspando = true);
+
 canvas.addEventListener("mouseup", () => {
   raspando = false;
 
-  let saldo = Number(localStorage.getItem("saldo"));
-
   if (premio > 0) {
     saldo += premio;
-    localStorage.setItem("saldo", saldo);
     document.getElementById("res").innerText = "🔥 Ganhou R$" + premio;
   } else {
     document.getElementById("res").innerText = "❌ Perdeu";
@@ -100,3 +74,5 @@ canvas.addEventListener("mousemove", (e) => {
 
   ctx.clearRect(x - 10, y - 10, 20, 20);
 });
+
+atualizar();
