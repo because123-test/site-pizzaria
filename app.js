@@ -12,13 +12,12 @@ function atualizar() {
 
 function depositar() {
   let valor = Number(document.getElementById("valor").value);
-  if (valor <= 0) return;
-
-  saldo += valor;
-  atualizar();
+  if (valor > 0) {
+    saldo += valor;
+    atualizar();
+  }
 }
 
-// nova raspadinha
 function nova() {
   if (saldo < 10) {
     alert("Saldo insuficiente");
@@ -28,12 +27,8 @@ function nova() {
   saldo -= 10;
   atualizar();
 
-  // camada de raspagem
-  ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = "#aaa";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // prêmio
   let r = Math.random();
 
   if (r > 0.85) {
@@ -47,7 +42,11 @@ function nova() {
     desenhar("❌ Nada", "red");
   }
 
-  document.getElementById("res").innerText = "Raspe o cartão";
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = "#999";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  document.getElementById("res").innerText = "Raspe para revelar";
 }
 
 function desenhar(txt, cor) {
@@ -56,37 +55,35 @@ function desenhar(txt, cor) {
   ctx.fillText(txt, 70, 80);
 }
 
-// eventos
-canvas.addEventListener("mousedown", () => raspando = true);
-canvas.addEventListener("mouseup", finalizar);
-canvas.addEventListener("mouseleave", () => raspando = false);
-
-canvas.addEventListener("mousemove", raspar);
-
-// mobile
-canvas.addEventListener("touchstart", () => raspando = true);
-canvas.addEventListener("touchend", finalizar);
-canvas.addEventListener("touchmove", (e) => raspar(e.touches[0]));
-
-function raspar(e) {
-  if (!raspando) return;
-
-  let rect = canvas.getBoundingClientRect();
-  let x = e.clientX - rect.left;
-  let y = e.clientY - rect.top;
-
+function raspar(x, y) {
   ctx.globalCompositeOperation = "destination-out";
   ctx.beginPath();
-  ctx.arc(x, y, 15, 0, Math.PI * 2);
+  ctx.arc(x, y, 18, 0, Math.PI * 2);
   ctx.fill();
 }
+
+canvas.addEventListener("mousedown", () => raspando = true);
+canvas.addEventListener("mouseup", finalizar);
+canvas.addEventListener("mousemove", (e) => {
+  if (!raspando) return;
+  let rect = canvas.getBoundingClientRect();
+  raspar(e.clientX - rect.left, e.clientY - rect.top);
+});
+
+canvas.addEventListener("touchstart", () => raspando = true);
+canvas.addEventListener("touchend", finalizar);
+canvas.addEventListener("touchmove", (e) => {
+  let rect = canvas.getBoundingClientRect();
+  let t = e.touches[0];
+  raspar(t.clientX - rect.left, t.clientY - rect.top);
+});
 
 function finalizar() {
   raspando = false;
 
   if (premio > 0) {
     saldo += premio;
-    document.getElementById("res").innerText = "🔥 Ganhou R$" + premio;
+    document.getElementById("res").innerText = "🔥 Você ganhou R$" + premio;
   } else {
     document.getElementById("res").innerText = "❌ Tente novamente";
   }
