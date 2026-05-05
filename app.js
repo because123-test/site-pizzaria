@@ -6,51 +6,55 @@ const ctx = canvas.getContext("2d");
 let angulo = 0;
 let girando = false;
 
-// prêmios
-const premios = [
-  { texto: "R$0", valor: 0, cor: "#444" },
-  { texto: "R$10", valor: 10, cor: "green" },
-  { texto: "R$50", valor: 50, cor: "blue" },
-  { texto: "R$0", valor: 0, cor: "#444" },
-  { texto: "R$100", valor: 100, cor: "gold" },
-  { texto: "R$0", valor: 0, cor: "#444" }
+// multiplicadores (com repetição pra probabilidade)
+const setores = [
+  {mult:1, cor:"#444"},
+  {mult:1, cor:"#555"},
+  {mult:2, cor:"green"},
+  {mult:1, cor:"#444"},
+  {mult:5, cor:"blue"},
+  {mult:1, cor:"#555"},
+  {mult:2, cor:"green"},
+  {mult:10, cor:"purple"},
+  {mult:1, cor:"#444"},
+  {mult:2, cor:"green"},
+  {mult:20, cor:"gold"},
+  {mult:1, cor:"#555"}
 ];
+
+function atualizar() {
+  document.getElementById("saldo").innerText = saldo;
+}
+
+function depositar() {
+  let v = Number(document.getElementById("valor").value);
+  if (v > 0) {
+    saldo += v;
+    atualizar();
+  }
+}
 
 // desenhar roleta
 function desenhar() {
-  let ang = (Math.PI * 2) / premios.length;
+  let ang = (Math.PI*2)/setores.length;
 
-  for (let i = 0; i < premios.length; i++) {
+  for(let i=0;i<setores.length;i++){
     ctx.beginPath();
     ctx.moveTo(150,150);
-    ctx.arc(150,150,150, ang*i + angulo, ang*(i+1)+angulo);
-    ctx.fillStyle = premios[i].cor;
+    ctx.arc(150,150,150, ang*i+angulo, ang*(i+1)+angulo);
+    ctx.fillStyle = setores[i].cor;
     ctx.fill();
 
     ctx.save();
     ctx.translate(150,150);
     ctx.rotate(ang*i + ang/2 + angulo);
     ctx.fillStyle = "white";
-    ctx.fillText(premios[i].texto, 80, 10);
+    ctx.fillText(setores[i].mult+"x", 90, 10);
     ctx.restore();
   }
 }
 
-// atualizar saldo
-function atualizar() {
-  document.getElementById("saldo").innerText = saldo;
-}
-
-// depositar
-function depositar() {
-  let valor = Number(document.getElementById("valor").value);
-  if (valor > 0) {
-    saldo += valor;
-    atualizar();
-  }
-}
-
-// girar roleta
+// girar
 function girar() {
   if (girando) return;
 
@@ -64,34 +68,33 @@ function girar() {
 
   girando = true;
 
-  let velocidade = Math.random() * 0.3 + 0.3;
+  let vel = Math.random()*0.3+0.4;
 
-  let intervalo = setInterval(() => {
-    angulo += velocidade;
-    velocidade *= 0.97;
+  let loop = setInterval(()=>{
+    angulo += vel;
+    vel *= 0.97;
 
     ctx.clearRect(0,0,300,300);
     desenhar();
 
-    if (velocidade < 0.002) {
-      clearInterval(intervalo);
+    if (vel < 0.002) {
+      clearInterval(loop);
       girando = false;
 
-      let angFinal = (angulo % (Math.PI*2));
-      let setor = Math.floor((premios.length - (angFinal / (Math.PI*2)) * premios.length)) % premios.length;
+      let angFinal = angulo % (Math.PI*2);
+      let setorIndex = Math.floor((setores.length - (angFinal/(Math.PI*2))*setores.length)) % setores.length;
 
-      let premio = premios[setor];
+      let mult = setores[setorIndex].mult;
+      let ganho = mult * 10;
 
-      saldo += premio.valor;
+      saldo += ganho;
       atualizar();
 
-      document.getElementById("resultado").innerText =
-        premio.valor > 0
-        ? "🔥 Ganhou " + premio.texto
-        : "❌ Não ganhou";
+      document.getElementById("res").innerText =
+        mult > 1 ? "🔥 Ganhou "+mult+"x (R$"+ganho+")" : "❌ 1x (sem lucro)";
     }
 
-  }, 16);
+  },16);
 }
 
 desenhar();
