@@ -2,34 +2,44 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Don Casino</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>🎰 Don Casino</h1>
+<div class="app">
+  <header>
+    <h1>🎰 Don Casino</h1>
+    <p class="sub">Raspadinha Premium</p>
+  </header>
 
-  <div class="card saldo-box">
-    <p>Saldo</p>
-    <h2>R$ <span id="saldo">100</span></h2>
-  </div>
-
-  <div class="card deposito">
-    <input id="valor" type="number" placeholder="Depositar valor">
-    <button onclick="depositar()">Depositar</button>
-  </div>
-
-  <div class="card raspadinha">
-    <h3>🎟️ Raspadinha (R$10)</h3>
-
-    <div class="scratch-container">
-      <canvas id="canvas" width="300" height="150"></canvas>
+  <main>
+    <div class="card saldo">
+      <span>Saldo</span>
+      <h2>R$ <span id="saldo">100</span></h2>
     </div>
 
-    <p id="res">Clique em "Nova"</p>
-    <button onclick="nova()">Nova Raspadinha</button>
-  </div>
+    <div class="card deposito">
+      <input id="valor" type="number" placeholder="Depositar valor">
+      <button onclick="depositar()">Depositar</button>
+    </div>
+
+    <div class="card jogo">
+      <h3>🎟️ Raspadinha (R$10)</h3>
+
+      <div class="scratch-box">
+        <canvas id="canvas" width="300" height="150"></canvas>
+      </div>
+
+      <p id="res">Clique em "Nova Raspadinha"</p>
+      <button onclick="nova()">Nova Raspadinha</button>
+    </div>
+  </main>
+
+  <footer>
+    <small>© Don Casino</small>
+  </footer>
 </div>
 
 <script src="app.js"></script>
