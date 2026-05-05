@@ -1,104 +1,102 @@
-let saldo = 1000;
+// LOGIN
+function login() {
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
 
-function atualizarSaldo() {
-  document.getElementById("saldo").innerText = saldo;
-}
+  if (!user || !pass) return alert("Preencha tudo");
 
-function mostrar(id) {
-  document.querySelectorAll(".tela").forEach(t => t.style.display = "none");
-  document.getElementById(id).style.display = "block";
-}
-
-mostrar("home");
-
-// 🎡 Roleta
-function jogarRoleta() {
-  let valor = Number(document.getElementById("valorRoleta").value);
-  let cor = document.getElementById("cor").value;
-
-  if (valor > saldo) return alert("Saldo insuficiente");
-
-  saldo -= valor;
-
-  let resultado = Math.random() > 0.5 ? "vermelho" : "preto";
-
-  if (resultado === cor) {
-    saldo += valor * 2;
-    resRoleta.innerText = "🔥 Ganhou!";
-  } else {
-    resRoleta.innerText = "❌ Perdeu!";
+  localStorage.setItem("user", user);
+  if (!localStorage.getItem("saldo")) {
+    localStorage.setItem("saldo", 100);
   }
 
-  atualizarSaldo();
+  entrar();
 }
 
-// 🃏 Blackjack
-let jogador = 0;
-let dealer = 0;
-let jogando = false;
-
-function carta() {
-  return Math.floor(Math.random() * 11) + 1;
+function entrar() {
+  document.getElementById("login").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  atualizar();
 }
 
-function iniciarBlackjack() {
-  jogador = carta() + carta();
-  dealer = carta();
-  jogando = true;
-  bjStatus.innerText = "Você: " + jogador;
+if (localStorage.getItem("user")) entrar();
+
+// SALDO
+function atualizar() {
+  document.getElementById("saldo").innerText = localStorage.getItem("saldo");
 }
 
-function comprar() {
-  if (!jogando) return;
+// DEPÓSITO
+function depositar() {
+  let valor = Number(document.getElementById("valorDep").value);
+  let saldo = Number(localStorage.getItem("saldo"));
 
-  jogador += carta();
+  saldo += valor;
+  localStorage.setItem("saldo", saldo);
+  atualizar();
+}
 
-  if (jogador > 21) {
-    saldo -= 50;
-    bjStatus.innerText = "Estourou!";
-    jogando = false;
+// RASPADINHA
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+let raspando = false;
+let premio = 0;
+
+function nova() {
+  let saldo = Number(localStorage.getItem("saldo"));
+
+  if (saldo < 10) return alert("Sem saldo");
+
+  saldo -= 10;
+  localStorage.setItem("saldo", saldo);
+  atualizar();
+
+  ctx.fillStyle = "gray";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  let r = Math.random();
+
+  if (r > 0.8) {
+    premio = 100;
+    ctx.fillStyle = "gold";
+    ctx.font = "30px Arial";
+    ctx.fillText("💎 R$100", 80, 80);
+  } else if (r > 0.5) {
+    premio = 30;
+    ctx.fillStyle = "green";
+    ctx.fillText("🍀 R$30", 90, 80);
   } else {
-    bjStatus.innerText = "Você: " + jogador;
+    premio = 0;
+    ctx.fillStyle = "red";
+    ctx.fillText("❌ Nada", 100, 80);
   }
 
-  atualizarSaldo();
+  document.getElementById("res").innerText = "Raspe!";
 }
 
-function parar() {
-  if (!jogando) return;
+canvas.addEventListener("mousedown", () => raspando = true);
+canvas.addEventListener("mouseup", () => {
+  raspando = false;
 
-  while (dealer < 17) dealer += carta();
+  let saldo = Number(localStorage.getItem("saldo"));
 
-  if (dealer > 21 || jogador > dealer) {
-    saldo += 50;
-    bjStatus.innerText = "🔥 Ganhou!";
+  if (premio > 0) {
+    saldo += premio;
+    localStorage.setItem("saldo", saldo);
+    document.getElementById("res").innerText = "🔥 Ganhou R$" + premio;
   } else {
-    saldo -= 50;
-    bjStatus.innerText = "❌ Perdeu!";
+    document.getElementById("res").innerText = "❌ Perdeu";
   }
 
-  jogando = false;
-  atualizarSaldo();
-}
+  atualizar();
+});
 
-// 🎰 Slot
-function girarSlot() {
-  if (saldo < 20) return alert("Sem saldo");
+canvas.addEventListener("mousemove", (e) => {
+  if (!raspando) return;
 
-  saldo -= 20;
+  let rect = canvas.getBoundingClientRect();
+  let x = e.clientX - rect.left;
+  let y = e.clientY - rect.top;
 
-  let a = Math.floor(Math.random() * 3);
-  let b = Math.floor(Math.random() * 3);
-  let c = Math.floor(Math.random() * 3);
-
-  if (a === b && b === c) {
-    saldo += 100;
-    slotRes.innerText = "🔥 JACKPOT!";
-  } else {
-    slotRes.innerText = "❌ Tente novamente";
-  }
-
-  atualizarSaldo();
-}
-
-atualizarSaldo();
+  ctx.clearRect(x - 10, y - 10, 20, 20);
+});
