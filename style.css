@@ -1,17 +1,58 @@
 body {
-  background: #0b0b0b;
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
   color: white;
   text-align: center;
-  font-family: Arial;
 }
 
-input, button {
+.container {
+  padding: 20px;
+}
+
+h1 {
+  color: gold;
+}
+
+.card {
+  background: #111;
+  padding: 20px;
+  margin: 15px auto;
+  border-radius: 15px;
+  width: 320px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+button {
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  background: gold;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: #ffd700;
+}
+
+input {
   padding: 10px;
-  margin: 5px;
+  width: 90%;
+  border-radius: 10px;
+  border: none;
+}
+
+.scratch-container {
+  position: relative;
+  margin-top: 10px;
 }
 
 canvas {
-  background: gray;
-  margin-top: 10px;
+  background: #ccc;
   border-radius: 10px;
 }
