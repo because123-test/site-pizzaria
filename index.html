@@ -3,46 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Don Raspadinha</title>
+<title>Don Casino - Roleta</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="app">
+  <h1>🎰 Don Casino</h1>
 
-  <header>
-    <h1>🎰 Don Raspadinha</h1>
-    <p class="desc">
-      Teste sua sorte na raspadinha premium do Don Casino. 
-      Raspe, revele e conquiste prêmios instantâneos.
-    </p>
-  </header>
+  <p class="desc">
+    Gire a roleta premium e ganhe prêmios instantâneos.
+  </p>
 
   <div class="saldo-box">
-    <span>Saldo disponível</span>
-    <h2>R$ <span id="saldo">100</span></h2>
+    Saldo: R$ <span id="saldo">100</span>
   </div>
 
   <div class="card">
     <input id="valor" type="number" placeholder="Adicionar saldo">
-    <button onclick="depositar()">Adicionar saldo</button>
+    <button onclick="depositar()">Depositar</button>
   </div>
 
-  <div class="card jogo">
-    <h3>🎟️ Raspadinha Premium (R$10)</h3>
+  <div class="card">
+    <h3>🎡 Roleta de Prêmios (R$10)</h3>
 
-    <div class="canvas-area">
-      <canvas id="canvas" width="300" height="150"></canvas>
+    <div class="roleta-box">
+      <canvas id="roleta" width="300" height="300"></canvas>
+      <div class="ponteiro">▼</div>
     </div>
 
-    <p id="res">Clique em "Nova raspadinha"</p>
-    <button onclick="nova()">Nova raspadinha</button>
+    <p id="resultado">Clique para girar</p>
+    <button onclick="girar()">Girar Roleta</button>
   </div>
-
-  <footer>
-    <p>© Don Casino • Experiência de entretenimento virtual</p>
-  </footer>
-
 </div>
 
 <script src="app.js"></script>
