@@ -2,31 +2,23 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Don Casino</title>
+<title>Don Casino - Raspadinha</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="login">
-  <h2>🔐 Login</h2>
-  <input id="user" placeholder="Usuário"><br>
-  <input id="pass" type="password" placeholder="Senha"><br>
-  <button onclick="login()">Entrar</button>
-</div>
+<h1>🎰 Don Casino</h1>
 
-<div id="app" style="display:none;">
-  <h1>🎰 Don Casino</h1>
-  <p>Saldo: R$ <span id="saldo">0</span></p>
+<p>Saldo: R$ <span id="saldo">100</span></p>
 
-  <h3>💰 Depósito</h3>
-  <input id="valorDep" type="number" placeholder="Valor">
-  <button onclick="depositar()">Depositar</button>
+<h3>💰 Depositar</h3>
+<input id="valor" type="number" placeholder="Valor">
+<button onclick="depositar()">Depositar</button>
 
-  <h3>🎟️ Raspadinha (R$10)</h3>
-  <canvas id="canvas" width="300" height="150"></canvas>
-  <p id="res"></p>
-  <button onclick="nova()">Nova Raspadinha</button>
-</div>
+<h3>🎟️ Raspadinha (R$10)</h3>
+<canvas id="canvas" width="300" height="150"></canvas>
+<p id="res">Clique em "Nova Raspadinha"</p>
+<button onclick="nova()">Nova Raspadinha</button>
 
 <script src="app.js"></script>
 </body>
