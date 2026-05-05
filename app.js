@@ -1,15 +1,47 @@
 let saldo = 100;
 
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById("roleta");
 const ctx = canvas.getContext("2d");
 
-let raspando = false;
-let premio = 0;
+let angulo = 0;
+let girando = false;
 
+// prêmios
+const premios = [
+  { texto: "R$0", valor: 0, cor: "#444" },
+  { texto: "R$10", valor: 10, cor: "green" },
+  { texto: "R$50", valor: 50, cor: "blue" },
+  { texto: "R$0", valor: 0, cor: "#444" },
+  { texto: "R$100", valor: 100, cor: "gold" },
+  { texto: "R$0", valor: 0, cor: "#444" }
+];
+
+// desenhar roleta
+function desenhar() {
+  let ang = (Math.PI * 2) / premios.length;
+
+  for (let i = 0; i < premios.length; i++) {
+    ctx.beginPath();
+    ctx.moveTo(150,150);
+    ctx.arc(150,150,150, ang*i + angulo, ang*(i+1)+angulo);
+    ctx.fillStyle = premios[i].cor;
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(150,150);
+    ctx.rotate(ang*i + ang/2 + angulo);
+    ctx.fillStyle = "white";
+    ctx.fillText(premios[i].texto, 80, 10);
+    ctx.restore();
+  }
+}
+
+// atualizar saldo
 function atualizar() {
   document.getElementById("saldo").innerText = saldo;
 }
 
+// depositar
 function depositar() {
   let valor = Number(document.getElementById("valor").value);
   if (valor > 0) {
@@ -18,77 +50,49 @@ function depositar() {
   }
 }
 
-function nova() {
+// girar roleta
+function girar() {
+  if (girando) return;
+
   if (saldo < 10) {
-    alert("Saldo insuficiente");
+    alert("Sem saldo");
     return;
   }
 
   saldo -= 10;
   atualizar();
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  girando = true;
 
-  let r = Math.random();
+  let velocidade = Math.random() * 0.3 + 0.3;
 
-  if (r > 0.85) {
-    premio = 200;
-    desenhar("💎 R$200", "gold");
-  } else if (r > 0.6) {
-    premio = 50;
-    desenhar("🍀 R$50", "lime");
-  } else {
-    premio = 0;
-    desenhar("❌ Nada", "red");
-  }
+  let intervalo = setInterval(() => {
+    angulo += velocidade;
+    velocidade *= 0.97;
 
-  ctx.globalCompositeOperation = "source-over";
-  ctx.fillStyle = "#999";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,300,300);
+    desenhar();
 
-  document.getElementById("res").innerText = "Raspe para revelar";
+    if (velocidade < 0.002) {
+      clearInterval(intervalo);
+      girando = false;
+
+      let angFinal = (angulo % (Math.PI*2));
+      let setor = Math.floor((premios.length - (angFinal / (Math.PI*2)) * premios.length)) % premios.length;
+
+      let premio = premios[setor];
+
+      saldo += premio.valor;
+      atualizar();
+
+      document.getElementById("resultado").innerText =
+        premio.valor > 0
+        ? "🔥 Ganhou " + premio.texto
+        : "❌ Não ganhou";
+    }
+
+  }, 16);
 }
 
-function desenhar(txt, cor) {
-  ctx.fillStyle = cor;
-  ctx.font = "28px Arial";
-  ctx.fillText(txt, 70, 80);
-}
-
-function raspar(x, y) {
-  ctx.globalCompositeOperation = "destination-out";
-  ctx.beginPath();
-  ctx.arc(x, y, 18, 0, Math.PI * 2);
-  ctx.fill();
-}
-
-canvas.addEventListener("mousedown", () => raspando = true);
-canvas.addEventListener("mouseup", finalizar);
-canvas.addEventListener("mousemove", (e) => {
-  if (!raspando) return;
-  let rect = canvas.getBoundingClientRect();
-  raspar(e.clientX - rect.left, e.clientY - rect.top);
-});
-
-canvas.addEventListener("touchstart", () => raspando = true);
-canvas.addEventListener("touchend", finalizar);
-canvas.addEventListener("touchmove", (e) => {
-  let rect = canvas.getBoundingClientRect();
-  let t = e.touches[0];
-  raspar(t.clientX - rect.left, t.clientY - rect.top);
-});
-
-function finalizar() {
-  raspando = false;
-
-  if (premio > 0) {
-    saldo += premio;
-    document.getElementById("res").innerText = "🔥 Você ganhou R$" + premio;
-  } else {
-    document.getElementById("res").innerText = "❌ Tente novamente";
-  }
-
-  atualizar();
-}
-
+desenhar();
 atualizar();
