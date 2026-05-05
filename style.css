@@ -1,37 +1,17 @@
 body {
-  margin: 0;
-  font-family: Arial;
   background: #0b0b0b;
   color: white;
   text-align: center;
+  font-family: Arial;
 }
 
-header {
-  padding: 20px;
-  border-bottom: 2px solid gold;
-}
-
-h1 {
-  color: gold;
-}
-
-nav button {
+input, button {
   margin: 5px;
   padding: 10px;
-  background: gold;
-  border: none;
-  cursor: pointer;
 }
 
-.tela {
-  display: none;
-  padding: 20px;
-}
-
-.saldo {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  border: 1px solid gold;
-  padding: 10px;
+canvas {
+  background: gray;
+  margin-top: 10px;
+  border-radius: 10px;
 }
