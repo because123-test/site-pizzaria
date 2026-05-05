@@ -1,57 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Don Casino</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Don Casino</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>🎰 DON CASINO</h1>
-  <div class="saldo">Saldo: R$ <span id="saldo">1000</span></div>
-</header>
+<div id="login">
+  <h2>🔐 Login</h2>
+  <input id="user" placeholder="Usuário"><br>
+  <input id="pass" type="password" placeholder="Senha"><br>
+  <button onclick="login()">Entrar</button>
+</div>
 
-<nav>
-  <button onclick="mostrar('home')">Home</button>
-  <button onclick="mostrar('roleta')">Roleta</button>
-  <button onclick="mostrar('blackjack')">Blackjack</button>
-  <button onclick="mostrar('slot')">Slots</button>
-</nav>
+<div id="app" style="display:none;">
+  <h1>🎰 Don Casino</h1>
+  <p>Saldo: R$ <span id="saldo">0</span></p>
 
-<section id="home" class="tela">
-  <h2>Bem-vindo, Dom</h2>
-  <p>O jogo começa quando o silêncio termina.</p>
-</section>
+  <h3>💰 Depósito</h3>
+  <input id="valorDep" type="number" placeholder="Valor">
+  <button onclick="depositar()">Depositar</button>
 
-<section id="roleta" class="tela">
-  <h2>🎡 Roleta</h2>
-  <input id="valorRoleta" type="number" placeholder="Valor">
-  <select id="cor">
-    <option value="vermelho">Vermelho</option>
-    <option value="preto">Preto</option>
-  </select>
-  <button onclick="jogarRoleta()">Girar</button>
-  <p id="resRoleta"></p>
-</section>
-
-<section id="blackjack" class="tela">
-  <h2>🃏 Blackjack</h2>
-  <button onclick="iniciarBlackjack()">Iniciar</button>
-  <button onclick="comprar()">Comprar carta</button>
-  <button onclick="parar()">Parar</button>
-  <p id="bjStatus"></p>
-</section>
-
-<section id="slot" class="tela">
-  <h2>🎰 Slot</h2>
-  <button onclick="girarSlot()">Girar (R$20)</button>
-  <p id="slotRes"></p>
-</section>
-
-<footer>
-  © 2026 Don Casino - Demo
-</footer>
+  <h3>🎟️ Raspadinha (R$10)</h3>
+  <canvas id="canvas" width="300" height="150"></canvas>
+  <p id="res"></p>
+  <button onclick="nova()">Nova Raspadinha</button>
+</div>
 
 <script src="app.js"></script>
 </body>
