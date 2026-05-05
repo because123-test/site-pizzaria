@@ -11,29 +11,25 @@
 <div class="app">
   <h1>🎰 Don Casino</h1>
 
-  <p class="desc">
-    Gire a roleta premium e ganhe prêmios instantâneos.
-  </p>
-
-  <div class="saldo-box">
+  <div class="saldo">
     Saldo: R$ <span id="saldo">100</span>
   </div>
 
   <div class="card">
-    <input id="valor" type="number" placeholder="Adicionar saldo">
+    <input id="valor" type="number" placeholder="Depositar">
     <button onclick="depositar()">Depositar</button>
   </div>
 
   <div class="card">
-    <h3>🎡 Roleta de Prêmios (R$10)</h3>
+    <h3>🎡 Roleta de Multiplicador</h3>
 
     <div class="roleta-box">
       <canvas id="roleta" width="300" height="300"></canvas>
-      <div class="ponteiro">▼</div>
+      <div class="ponteiro"></div>
     </div>
 
-    <p id="resultado">Clique para girar</p>
-    <button onclick="girar()">Girar Roleta</button>
+    <button onclick="girar()">Girar (R$10)</button>
+    <p id="res">Clique para girar</p>
   </div>
 </div>
 
